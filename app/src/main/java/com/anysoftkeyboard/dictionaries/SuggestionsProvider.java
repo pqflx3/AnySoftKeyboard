@@ -37,6 +37,11 @@ public class SuggestionsProvider {
         }
 
         @Override
+        public String[] getWords() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void getWords(KeyCodesProvider composer, WordCallback callback) {
         }
 
@@ -199,6 +204,12 @@ public class SuggestionsProvider {
         }
     }
 
+    private static void allDictionariesGetWords(List<? extends Dictionary> dictionaries, List<CharSequence> words) {
+        for (Dictionary dictionary : dictionaries) {
+            Collections.addAll(words, dictionary.getWords());
+        }
+    }
+
     public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders) {
         if (BuildConfig.TESTING_BUILD) {
             Logger.d(TAG, "setupSuggestionsFor %d dictionaries", dictionaryBuilders.size());
@@ -291,6 +302,12 @@ public class SuggestionsProvider {
         }
 
         return allDictionariesIsValid(mMainDictionary, word) || allDictionariesIsValid(mUserDictionary, word) || mContactsDictionary.isValidWord(word);
+    }
+
+    public List<CharSequence> getWords() {
+        List<CharSequence> lst = new ArrayList<>();
+        allDictionariesGetWords(mMainDictionary, lst);
+        return lst;
     }
 
     public void setIncognitoMode(boolean incognitoMode) {

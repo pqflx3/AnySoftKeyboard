@@ -26,12 +26,15 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    public void onDictionaryLoaded() {
         addDisposable(prefs().getBoolean(R.string.settings_key_gesture_typing, R.bool.settings_default_gesture_typing)
                 .asObservable().subscribe(enabled -> {
                     mGestureTypingEnabled = enabled;
                     if (mGestureTypingDetector == null && mGestureTypingEnabled) {
                         mGestureTypingDetector = createGestureTypingDetector();
-                        mGestureTypingDetector.loadResources(this);
+                        mGestureTypingDetector.setWords(mSuggest.getWords());
 
                         final AnyKeyboard currentAlphabetKeyboard = getCurrentAlphabetKeyboard();
                         //it might be null if the IME service started with enabled flag set to true. In that case

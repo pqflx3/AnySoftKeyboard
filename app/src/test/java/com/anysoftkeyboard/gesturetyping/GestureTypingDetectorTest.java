@@ -18,15 +18,8 @@ import java.util.List;
 @RunWith(AnySoftKeyboardRobolectricTestRunner.class)
 public class GestureTypingDetectorTest {
     public static class TestableGestureTypingDetector extends GestureTypingDetector {
-        private final List<CharSequence> mWordsToLoad;
-
         public TestableGestureTypingDetector(@NonNull List<CharSequence> wordsToLoad) {
-            mWordsToLoad = wordsToLoad;
-        }
-
-        @Override
-        public void loadResources(Context context) {
-            mWords.addAll(mWordsToLoad);
+            setWords(wordsToLoad);
         }
     }
 
@@ -35,7 +28,7 @@ public class GestureTypingDetectorTest {
         Robolectric.getBackgroundThreadScheduler().pause();
         TestableGestureTypingDetector detector = new TestableGestureTypingDetector(Arrays.asList("hello", "welcome"));
         Assert.assertEquals(GestureTypingDetector.LoadingState.NOT_LOADED, detector.getLoadingState());
-        detector.loadResources(RuntimeEnvironment.application);
+        detector.setWords(Collections.emptyList());
         Assert.assertEquals(GestureTypingDetector.LoadingState.NOT_LOADED, detector.getLoadingState());
         detector.setKeys(Collections.emptyList(), 100, 100);
         Assert.assertEquals(GestureTypingDetector.LoadingState.LOADING, detector.getLoadingState());

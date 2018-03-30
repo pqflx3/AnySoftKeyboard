@@ -2111,6 +2111,8 @@ public abstract class AnySoftKeyboard extends AnySoftKeyboardWithGestureTyping {
                 mSuggest.setupSuggestionsForKeyboard(buildersForKeyboard);
             }
         }
+
+        onDictionaryLoaded();
     }
 
     private void launchSettings() {

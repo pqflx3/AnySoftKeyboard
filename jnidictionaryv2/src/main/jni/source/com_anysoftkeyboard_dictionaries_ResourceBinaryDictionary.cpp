@@ -118,6 +118,14 @@ static jboolean nativeime_ResourceBinaryDictionary_isValidWord
     return result;
 }
 
+static jobjectArray nativeime_ResourceBinaryDictionary_getWords
+        (JNIEnv *env, jobject object, jlong dict)
+{
+    jobjectArray ret = env->NewObjectArray(1,env->FindClass("java/lang/String"), NULL);
+    env->SetObjectArrayElement(ret,0,env->NewStringUTF("hello"));
+    return ret;
+}
+
 static void nativeime_ResourceBinaryDictionary_close
         (JNIEnv *env, jobject object, jlong dict)
 {
@@ -131,8 +139,8 @@ static JNINativeMethod gMethods[] = {
     {"openNative",           "(Ljava/nio/ByteBuffer;II)J",  (void*)nativeime_ResourceBinaryDictionary_open},
     {"closeNative",          "(J)V",                        (void*)nativeime_ResourceBinaryDictionary_close},
     {"getSuggestionsNative", "(J[II[C[IIIII[II)I",          (void*)nativeime_ResourceBinaryDictionary_getSuggestions},
-    {"isValidWordNative",    "(J[CI)Z",                     (void*)nativeime_ResourceBinaryDictionary_isValidWord}/*,
-    {"getBigramsNative",     "(I[CI[II[C[IIII)I",           (void*)nativeime_ResourceBinaryDictionary_getBigrams}*/
+    {"isValidWordNative",    "(J[CI)Z",                     (void*)nativeime_ResourceBinaryDictionary_isValidWord},
+    {"getWordsNative",       "(J)[Ljava/lang/String;",      (void*)nativeime_ResourceBinaryDictionary_getWords}
 };
 
 static int registerNativeMethods(JNIEnv* env, const char* className,

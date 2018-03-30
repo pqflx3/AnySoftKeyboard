@@ -18,6 +18,7 @@ package com.anysoftkeyboard.dictionaries;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
@@ -394,5 +395,9 @@ public class Suggest {
         public int getFrequencyDelta() {
             return mFrequencyDelta;
         }
+    }
+
+    public List<CharSequence> getWords() {
+        return mSuggestionsProvider.getWords();
     }
 }
