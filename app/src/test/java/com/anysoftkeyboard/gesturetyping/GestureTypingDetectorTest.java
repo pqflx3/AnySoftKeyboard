@@ -1,6 +1,5 @@
 package com.anysoftkeyboard.gesturetyping;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.anysoftkeyboard.AnySoftKeyboardRobolectricTestRunner;
@@ -9,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
 
 import java.util.Arrays;
 import java.util.Collections;
