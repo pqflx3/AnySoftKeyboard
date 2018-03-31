@@ -107,12 +107,9 @@ public class TestableAnySoftKeyboard extends SoftKeyboard {
         return mSpiedSuggest = Mockito.spy(new TestableSuggest(this));
     }
 
-    @NonNull
     @Override
-    protected GestureTypingDetector createGestureTypingDetector() {
-        return new GestureTypingDetectorTest.TestableGestureTypingDetector(Arrays.asList(
-                "hello", "welcome", "is", "you", "good", "bye", "one", "two", "three"
-        ));
+    protected void loadWords() {
+        mGestureTypingDetector.setWords(Arrays.asList("hello", "welcome", "is", "you", "good", "bye", "one", "two", "three"));
     }
 
     public TestableKeyboardSwitcher getKeyboardSwitcherForTests() {

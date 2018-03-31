@@ -21,11 +21,15 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
 
     private boolean mGestureTypingEnabled;
     @Nullable
-    private GestureTypingDetector mGestureTypingDetector;
+    protected GestureTypingDetector mGestureTypingDetector;
 
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    protected void loadWords() {
+        mGestureTypingDetector.setWords(mSuggest.getWords());
     }
 
     public void onDictionaryLoaded() {
@@ -33,8 +37,8 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
                 .asObservable().subscribe(enabled -> {
                     mGestureTypingEnabled = enabled;
                     if (mGestureTypingDetector == null && mGestureTypingEnabled) {
-                        mGestureTypingDetector = createGestureTypingDetector();
-                        mGestureTypingDetector.setWords(mSuggest.getWords());
+                        mGestureTypingDetector = new GestureTypingDetector();
+                        loadWords();
 
                         final AnyKeyboard currentAlphabetKeyboard = getCurrentAlphabetKeyboard();
                         //it might be null if the IME service started with enabled flag set to true. In that case
@@ -48,12 +52,6 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
                         mGestureTypingDetector = null;
                     }
                 }));
-    }
-
-    @NonNull
-    @VisibleForTesting
-    protected GestureTypingDetector createGestureTypingDetector() {
-        return new GestureTypingDetector();
     }
 
     /**
