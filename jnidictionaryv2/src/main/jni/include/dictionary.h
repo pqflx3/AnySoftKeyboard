@@ -43,6 +43,7 @@ public:
             unsigned short *outWords, int *frequencies, int maxWordLength, int maxBigrams,
             int maxAlternatives);
     bool isValidWord(unsigned short *word, int length);
+    int countWords(int pos = 0, int depth = 0);
     void setAsset(void *asset) { mAsset = asset; }
     void *getAsset() { return mAsset; }
     ~Dictionary();

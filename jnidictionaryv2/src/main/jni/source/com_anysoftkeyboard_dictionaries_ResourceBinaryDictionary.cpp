@@ -121,8 +121,15 @@ static jboolean nativeime_ResourceBinaryDictionary_isValidWord
 static jobjectArray nativeime_ResourceBinaryDictionary_getWords
         (JNIEnv *env, jobject object, jlong dict)
 {
+    Dictionary *dictionary = reinterpret_cast<Dictionary*>(dict);
+    if (!dictionary) return NULL;
+
     jobjectArray ret = env->NewObjectArray(1,env->FindClass("java/lang/String"), NULL);
-    env->SetObjectArrayElement(ret,0,env->NewStringUTF("hello"));
+
+    char str[12];
+    sprintf(str, "%d", dictionary->countWords());
+
+    env->SetObjectArrayElement(ret,0,env->NewStringUTF(str));
     return ret;
 }
 

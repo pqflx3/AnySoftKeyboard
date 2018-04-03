@@ -204,13 +204,7 @@ public class SuggestionsProvider {
         }
     }
 
-    private static void allDictionariesGetWords(List<? extends Dictionary> dictionaries, List<CharSequence> words) {
-        for (Dictionary dictionary : dictionaries) {
-            Collections.addAll(words, dictionary.getWords());
-        }
-    }
-
-    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders) {
+    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders, DictionaryBackgroundLoader.Listener cb) {
         if (BuildConfig.TESTING_BUILD) {
             Logger.d(TAG, "setupSuggestionsFor %d dictionaries", dictionaryBuilders.size());
             for (DictionaryAddOnAndBuilder dictionaryBuilder : dictionaryBuilders) {
@@ -233,7 +227,7 @@ public class SuggestionsProvider {
                 final Dictionary dictionary = dictionaryBuilder.createDictionary();
                 mMainDictionary.add(dictionary);
                 Logger.d(TAG, " Loading dictionary %s (%s)...", dictionaryBuilder.getId(), dictionaryBuilder.getLanguage());
-                disposablesHolder.add(DictionaryBackgroundLoader.loadDictionaryInBackground(dictionary));
+                disposablesHolder.add(DictionaryBackgroundLoader.loadDictionaryInBackground(cb, dictionary));
             } catch (Exception e) {
                 Logger.e(TAG, e, "Failed to create dictionary %s", dictionaryBuilder.getId());
             }
@@ -302,12 +296,6 @@ public class SuggestionsProvider {
         }
 
         return allDictionariesIsValid(mMainDictionary, word) || allDictionariesIsValid(mUserDictionary, word) || mContactsDictionary.isValidWord(word);
-    }
-
-    public List<CharSequence> getWords() {
-        List<CharSequence> lst = new ArrayList<>();
-        allDictionariesGetWords(mMainDictionary, lst);
-        return lst;
     }
 
     public void setIncognitoMode(boolean incognitoMode) {

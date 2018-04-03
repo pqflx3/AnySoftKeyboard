@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.view.inputmethod.InputConnection;
 
 import com.anysoftkeyboard.api.KeyCodes;
+import com.anysoftkeyboard.base.utils.Logger;
+import com.anysoftkeyboard.dictionaries.Dictionary;
+import com.anysoftkeyboard.dictionaries.DictionaryBackgroundLoader;
 import com.anysoftkeyboard.dictionaries.TextEntryState;
 import com.anysoftkeyboard.gesturetyping.GestureTypingDetector;
 import com.anysoftkeyboard.keyboards.AnyKeyboard;
@@ -15,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWithQuickText {
 
@@ -27,17 +33,41 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
         super.onCreate();
     }
 
-    protected void loadWords() {
-        mGestureTypingDetector.setWords(mSuggest.getWords());
+    protected class WordListDictionaryListener implements DictionaryBackgroundLoader.Listener {
+
+        public List<CharSequence> mWords = new ArrayList<>();
+        public int mDictCount = 0;
+        private Consumer<WordListDictionaryListener> mOnLoadedCallback;
+
+        public WordListDictionaryListener(Consumer<WordListDictionaryListener> cb) {
+            this.mOnLoadedCallback = cb;
+        }
+
+        @Override
+        public void onDictionaryLoadingDone(Dictionary dictionary) {
+            Logger.d("WordListDictionaryListener", "onDictionaryLoadingDone for %s", dictionary);
+            Collections.addAll(mWords, dictionary.getWords());
+            ++mDictCount;
+            try {
+                mOnLoadedCallback.accept(this);
+            } catch (Exception e) {
+                Logger.e("WordListDictionaryListener", e, "onDictionaryLoadingDone for %s calling callback with error %s", dictionary, e.getMessage());
+            }
+        }
+
+        @Override
+        public void onDictionaryLoadingFailed(Dictionary dictionary, Throwable exception) {
+            Logger.e("WordListDictionaryListener", exception, "onDictionaryLoadingFailed for %s with error %s", dictionary, exception.getMessage());
+        }
     }
 
-    public void onDictionaryLoaded() {
+    public void onDictionariesLoaded(WordListDictionaryListener listener) {
         addDisposable(prefs().getBoolean(R.string.settings_key_gesture_typing, R.bool.settings_default_gesture_typing)
                 .asObservable().subscribe(enabled -> {
                     mGestureTypingEnabled = enabled;
                     if (mGestureTypingDetector == null && mGestureTypingEnabled) {
                         mGestureTypingDetector = new GestureTypingDetector();
-                        loadWords();
+                        mGestureTypingDetector.setWords(listener.mWords);
 
                         final AnyKeyboard currentAlphabetKeyboard = getCurrentAlphabetKeyboard();
                         //it might be null if the IME service started with enabled flag set to true. In that case

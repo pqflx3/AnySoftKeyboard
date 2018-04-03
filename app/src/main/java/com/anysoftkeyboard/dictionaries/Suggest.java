@@ -154,9 +154,9 @@ public class Suggest {
         mSuggestionsProvider.close();
     }
 
-    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders) {
+    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders, DictionaryBackgroundLoader.Listener cb) {
         if (mEnabledSuggestions && dictionaryBuilders.size() > 0) {
-            mSuggestionsProvider.setupSuggestionsForKeyboard(dictionaryBuilders);
+            mSuggestionsProvider.setupSuggestionsForKeyboard(dictionaryBuilders, cb);
         } else {
             closeDictionaries();
         }
@@ -394,9 +394,5 @@ public class Suggest {
         public int getFrequencyDelta() {
             return mFrequencyDelta;
         }
-    }
-
-    public List<CharSequence> getWords() {
-        return mSuggestionsProvider.getWords();
     }
 }

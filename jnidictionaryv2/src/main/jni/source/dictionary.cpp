@@ -546,6 +546,39 @@ Dictionary::isValidWord(unsigned short *word, int length)
 }
 
 int
+Dictionary::countWords(int pos, int depth) {
+    if (!getFirstBitOfByte(&pos)) { // non-terminal
+        // pos at data
+        pos += DICTIONARY_HEADER_SIZE;
+        // pos now at count
+        int count = mDict[pos] & 0xFF;
+        return count;
+//        int wordCount = 0;
+//
+//        // pos at data
+//        mWord[depth] = (0xFF & mDict[pos]);
+//        pos += DICTIONARY_HEADER_SIZE; // pos now at count
+//        int count = mDict[pos] & 0xFF;
+//        pos++; // pos now at flag
+//
+//        for (int i = 0; i < count; i++) {
+//            // pos at data
+//            pos++;
+//            // pos now at flag
+//
+//            wordCount += countWords(getBigramAddress(&pos, false), depth + 1);
+//
+//            pos += 3;
+//        }
+//
+//        return wordCount;
+    } else {
+//        mWord[depth] = (0xFF & mDict[pos]);
+        return 1;
+    }
+}
+
+int
 Dictionary::isValidWordRec(int pos, unsigned short *word, int offset, int length) {
     // returns address of bigram data of that word
     // return -99 if not found

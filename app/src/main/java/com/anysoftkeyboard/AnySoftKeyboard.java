@@ -55,7 +55,9 @@ import android.widget.Toast;
 import com.anysoftkeyboard.api.KeyCodes;
 import com.anysoftkeyboard.base.utils.CompatUtils;
 import com.anysoftkeyboard.base.utils.Logger;
+import com.anysoftkeyboard.dictionaries.Dictionary;
 import com.anysoftkeyboard.dictionaries.DictionaryAddOnAndBuilder;
+import com.anysoftkeyboard.dictionaries.DictionaryBackgroundLoader;
 import com.anysoftkeyboard.dictionaries.ExternalDictionaryFactory;
 import com.anysoftkeyboard.dictionaries.Suggest;
 import com.anysoftkeyboard.dictionaries.TextEntryState;
@@ -96,6 +98,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Input method implementation for QWERTY-ish keyboard.
@@ -2108,11 +2111,9 @@ public abstract class AnySoftKeyboard extends AnySoftKeyboardWithGestureTyping {
 
                 List<DictionaryAddOnAndBuilder> buildersForKeyboard = AnyApplication.getExternalDictionaryFactory(this).getBuildersForKeyboard(currentAlphabetKeyboard);
 
-                mSuggest.setupSuggestionsForKeyboard(buildersForKeyboard);
+                mSuggest.setupSuggestionsForKeyboard(buildersForKeyboard, new WordListDictionaryListener(this::onDictionariesLoaded));
             }
         }
-
-        onDictionaryLoaded();
     }
 
     private void launchSettings() {
