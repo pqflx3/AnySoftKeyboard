@@ -545,37 +545,39 @@ Dictionary::isValidWord(unsigned short *word, int length)
     return isValid;
 }
 
+#include <android/log.h>
+
+#define  LOG_TAG    "your-log-tag"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+
 int
-Dictionary::countWords(int pos, int depth) {
-    if (!getFirstBitOfByte(&pos)) { // non-terminal
-        // pos at data
-        pos += DICTIONARY_HEADER_SIZE;
-        // pos now at count
-        int count = mDict[pos] & 0xFF;
-        return count;
-//        int wordCount = 0;
-//
-//        // pos at data
-//        mWord[depth] = (0xFF & mDict[pos]);
-//        pos += DICTIONARY_HEADER_SIZE; // pos now at count
-//        int count = mDict[pos] & 0xFF;
-//        pos++; // pos now at flag
-//
-//        for (int i = 0; i < count; i++) {
-//            // pos at data
-//            pos++;
-//            // pos now at flag
-//
-//            wordCount += countWords(getBigramAddress(&pos, false), depth + 1);
-//
-//            pos += 3;
-//        }
-//
-//        return wordCount;
-    } else {
-//        mWord[depth] = (0xFF & mDict[pos]);
-        return 1;
+Dictionary::countWordsHelper(int pos, int depth, char* word) {
+    const int count = getCount(&pos);
+    int wordCount = 0;
+
+    for (int i = 0; i < count; i++) {
+        // -- at char
+        const unsigned short c = getChar(&pos);
+        // -- at flag/add
+        const bool terminal = getTerminal(&pos);
+        const int childrenAddress = getAddress(&pos);
+        // -- after address or flag
+        int freq = 1;
+        if (terminal) freq = getFreq(&pos);
+        // -- after add or freq
+        word[depth] = c&0xFF;
+
+        if (terminal) {
+            word[depth + 1] = '\0';
+            LOGD("******** Got word: %s", word);
+            wordCount += 1;
+        }
+        if (childrenAddress != 0) {
+            wordCount += countWordsHelper(childrenAddress, depth+1, word);
+        }
     }
+
+    return wordCount;
 }
 
 int
