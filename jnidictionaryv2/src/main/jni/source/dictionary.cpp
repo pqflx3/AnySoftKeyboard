@@ -550,12 +550,10 @@ Dictionary::isValidWord(unsigned short *word, int length)
 #define  LOG_TAG    "your-log-tag"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 
-int
-Dictionary::countWordsHelper(int pos, int depth, char* word) {
+void Dictionary::countWordsHelper(int pos, int depth, int &wordCount, int &wordsCharsCount, char* word, char *&words) {
     const int count = getCount(&pos);
-    int wordCount = 0;
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < 2 && i < count; i++) {
         // -- at char
         const unsigned short c = getChar(&pos);
         // -- at flag/add
@@ -565,19 +563,21 @@ Dictionary::countWordsHelper(int pos, int depth, char* word) {
         int freq = 1;
         if (terminal) freq = getFreq(&pos);
         // -- after add or freq
-        word[depth] = c&0xFF;
+        if (word && words) word[depth] = c&0xFF;
 
         if (terminal) {
-            word[depth + 1] = '\0';
-            LOGD("******** Got word: %s", word);
-            wordCount += 1;
+            if (word && words) {
+                word[depth + 1] = '\0';
+                strcpy(words, word);
+                words += depth + 2;
+            }
+            wordsCharsCount += depth + 2;
+            wordCount++;
         }
         if (childrenAddress != 0) {
-            wordCount += countWordsHelper(childrenAddress, depth+1, word);
+            countWordsHelper(childrenAddress, depth+1, wordCount, wordsCharsCount, word, words);
         }
     }
-
-    return wordCount;
 }
 
 int

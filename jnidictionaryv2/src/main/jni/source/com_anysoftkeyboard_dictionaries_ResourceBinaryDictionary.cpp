@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include <jni.h>
+#include <string.h>
 #include "dictionary.h"
 
 // ----------------------------------------------------------------------------
@@ -124,12 +125,20 @@ static jobjectArray nativeime_ResourceBinaryDictionary_getWords
     Dictionary *dictionary = reinterpret_cast<Dictionary*>(dict);
     if (!dictionary) return NULL;
 
-    jobjectArray ret = env->NewObjectArray(1,env->FindClass("java/lang/String"), NULL);
+    int wordCount = 0, wordsCharsCount = 0;
+    dictionary->countWordsChars(wordCount, wordsCharsCount);
+    char *words = new char[wordsCharsCount];
+    dictionary->getWords(words);
 
-    char str[12];
-    sprintf(str, "%d", dictionary->countWords());
+    jobjectArray ret = env->NewObjectArray(wordCount, env->FindClass("java/lang/String"), NULL);
 
-    env->SetObjectArrayElement(ret,0,env->NewStringUTF(str));
+    char *pos = words;
+    for (int i=0; i<wordCount; ++i) {
+        env->SetObjectArrayElement(ret,i,env->NewStringUTF(pos));
+        pos += strlen(pos) + 1;
+    }
+
+    delete[] words;
     return ret;
 }
 

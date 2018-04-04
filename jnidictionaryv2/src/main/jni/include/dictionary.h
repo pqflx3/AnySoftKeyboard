@@ -43,13 +43,14 @@ public:
             unsigned short *outWords, int *frequencies, int maxWordLength, int maxBigrams,
             int maxAlternatives);
     bool isValidWord(unsigned short *word, int length);
-    int countWords(int pos = 0, int depth = 0) { char word[mMaxWordLength+1]; countWordsHelper(pos, depth, word); }
+    void getWords(char *words) { char word[256 /* TODO */]; int a; int b; countWordsHelper(0, 0, a, b, word, words); }
+    void countWordsChars(int &wordCount, int &wordsCharsCount) { char *a = NULL; return countWordsHelper(0, 0, wordCount, wordsCharsCount, NULL, a); }
     void setAsset(void *asset) { mAsset = asset; }
     void *getAsset() { return mAsset; }
     ~Dictionary();
 
 private:
-    int countWordsHelper(int pos, int depth, char *word);
+    void countWordsHelper(int pos, int depth, int &wordCount, int &wordsCharsCount, char *word, char *&words);
     void getVersionNumber();
     bool checkIfDictVersionIsLatest();
     int getAddress(int *pos);
