@@ -134,7 +134,9 @@ static jobjectArray nativeime_ResourceBinaryDictionary_getWords
 
     char *pos = words;
     for (int i=0; i<wordCount; ++i) {
-        env->SetObjectArrayElement(ret,i,env->NewStringUTF(pos));
+        jstring jstr = env->NewStringUTF(pos);
+        env->SetObjectArrayElement(ret,i,jstr);
+        env->DeleteLocalRef(jstr);
         pos += strlen(pos) + 1;
     }
 

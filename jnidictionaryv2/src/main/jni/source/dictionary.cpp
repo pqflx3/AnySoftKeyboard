@@ -545,25 +545,23 @@ Dictionary::isValidWord(unsigned short *word, int length)
     return isValid;
 }
 
-#include <android/log.h>
-
-#define  LOG_TAG    "your-log-tag"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
-
 void Dictionary::countWordsHelper(int pos, int depth, int &wordCount, int &wordsCharsCount, char* word, char *&words) {
     const int count = getCount(&pos);
 
-    for (int i = 0; i < 2 && i < count; i++) {
+    for (int i = 0; i < count; i++) {
         // -- at char
         const unsigned short c = getChar(&pos);
         // -- at flag/add
         const bool terminal = getTerminal(&pos);
         const int childrenAddress = getAddress(&pos);
         // -- after address or flag
-        int freq = 1;
-        if (terminal) freq = getFreq(&pos);
+        if (terminal) getFreq(&pos);
         // -- after add or freq
-        if (word && words) word[depth] = c&0xFF;
+        if (word && words) {
+            char c2 = (char) (c&0xFF);
+            if (c2 < 32 || c2 >= 126) c2 = 'U';
+            word[depth] = c2;
+        }
 
         if (terminal) {
             if (word && words) {
