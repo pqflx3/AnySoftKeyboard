@@ -22,6 +22,8 @@ import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
+import static com.anysoftkeyboard.dictionaries.DictionaryBackgroundLoader.NO_OP_LISTENER;
+
 public class SuggestionsProvider {
 
     private static final String TAG = "SuggestionsProvider";
@@ -209,7 +211,11 @@ public class SuggestionsProvider {
         }
     }
 
-    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders, DictionaryBackgroundLoader.Listener cb) {
+    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders) {
+        setupSuggestionsForKeyboard(dictionaryBuilders, NO_OP_LISTENER);
+    }
+
+    public void setupSuggestionsForKeyboard(@NonNull List<DictionaryAddOnAndBuilder> dictionaryBuilders, @NonNull DictionaryBackgroundLoader.Listener cb) {
         if (BuildConfig.TESTING_BUILD) {
             Logger.d(TAG, "setupSuggestionsFor %d dictionaries", dictionaryBuilders.size());
             for (DictionaryAddOnAndBuilder dictionaryBuilder : dictionaryBuilders) {

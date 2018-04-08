@@ -48,7 +48,7 @@ public class GestureTypingDetector {
     private LoadingState mWordsCornersState = LoadingState.NOT_LOADED;
     private final ArrayList<int[]> mWordsCorners = new ArrayList<>();
 
-    public void setWords(ArrayList<? extends CharSequence> words) {
+    public void setWords(List<? extends CharSequence> words) {
         mWords = words;
     }
 
