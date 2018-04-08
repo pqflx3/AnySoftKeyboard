@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -33,7 +34,7 @@ public class GestureTypingDetector {
 
     private Iterable<Keyboard.Key> mKeys = null;
     @VisibleForTesting
-    final List<CharSequence> mWords = new ArrayList<>();
+    List<? extends CharSequence> mWords = new ArrayList<>();
     @NonNull
     private Disposable mGeneratingDisposable = Disposables.empty();
 
@@ -47,12 +48,12 @@ public class GestureTypingDetector {
     private LoadingState mWordsCornersState = LoadingState.NOT_LOADED;
     private final ArrayList<int[]> mWordsCorners = new ArrayList<>();
 
-    public void addWords(String... words) {
-        Arrays.sort(words);
-        Collections.addAll(mWords, words);
+    public void setWords(ArrayList<? extends CharSequence> words) {
+        mWords = words;
     }
 
     public void setKeys(Iterable<Keyboard.Key> keys, int width, int height) {
+        if (mWords == null || mWords.size() == 0) return;
         if (mWordsCornersState == LoadingState.LOADING) return;
         if (mWordsCornersState == LoadingState.LOADED
                 && keys.equals(mKeys)
@@ -74,7 +75,7 @@ public class GestureTypingDetector {
         return mWordsCornersState;
     }
 
-    private Disposable generateCornersInBackground(Iterable<CharSequence> words, Collection<int[]> wordsCorners, Iterable<Keyboard.Key> keys) {
+    private Disposable generateCornersInBackground(Iterable<? extends CharSequence> words, Collection<int[]> wordsCorners, Iterable<Keyboard.Key> keys) {
         return Observable.just(Triple.create(words, wordsCorners, keys))
                 .map(triple -> {
                     triple.getSecond().clear();

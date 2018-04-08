@@ -31,23 +31,54 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
     @Override
     public void onCreate() {
         super.onCreate();
+
+        addDisposable(prefs().getBoolean(R.string.settings_key_gesture_typing, R.bool.settings_default_gesture_typing)
+            .asObservable().subscribe(enabled -> {
+                mGestureTypingEnabled = enabled;
+                if (mGestureTypingDetector != null && !mGestureTypingEnabled) {
+                    mGestureTypingDetector.destroy();
+                    mGestureTypingDetector = null;
+                } else if (mGestureTypingDetector == null && mGestureTypingEnabled) {
+                    mGestureTypingDetector = new GestureTypingDetector();
+                }
+            }));
     }
 
-    protected class WordListDictionaryListener implements DictionaryBackgroundLoader.Listener {
+    public class WordListDictionaryListener implements DictionaryBackgroundLoader.Listener {
 
-        private final Consumer<String[]> mOnLoadedCallback;
+        private final ArrayList<String> mWords = new ArrayList<>();
+        private final Consumer<ArrayList<? extends CharSequence>> mOnLoadedCallback;
+        private int mExpectedDictionaries = 0;
+        private boolean mHasAddedWords = false;
 
-        public WordListDictionaryListener(Consumer<String[]> cb) {
+        public WordListDictionaryListener(Consumer<ArrayList<? extends CharSequence>> cb) {
             this.mOnLoadedCallback = cb;
         }
 
         @Override
+        public void onDictionaryLoadingStarted(Dictionary _) { mExpectedDictionaries++; }
+
+        @Override
         public void onDictionaryLoadingDone(Dictionary dictionary) {
+            --mExpectedDictionaries;
             Logger.d("WordListDictionaryListener", "onDictionaryLoadingDone for %s", dictionary);
             String[] words = dictionary.getWords();
+            if (words != null && words.length > 0) {
+                Collections.addAll(mWords, words);
+                mHasAddedWords = true;
+            }
             Logger.d("WordListDictionaryListener", "onDictionaryLoadingDone got words with length %d", words.length);
+
+            if (mExpectedDictionaries == 0) doCallback(dictionary.toString());
+
+        }
+
+        private void doCallback(String dictionary) {
+            if (!mHasAddedWords) return;
+            mHasAddedWords = false;
             try {
-                mOnLoadedCallback.accept(words);
+                Collections.sort(mWords);
+                mOnLoadedCallback.accept(mWords);
             } catch (Exception e) {
                 Logger.e("WordListDictionaryListener", e, "onDictionaryLoadingDone for %s calling callback with error %s", dictionary, e.getMessage());
             }
@@ -55,31 +86,24 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
 
         @Override
         public void onDictionaryLoadingFailed(Dictionary dictionary, Throwable exception) {
+            --mExpectedDictionaries;
             Logger.e("WordListDictionaryListener", exception, "onDictionaryLoadingFailed for %s with error %s", dictionary, exception.getMessage());
+            if (mExpectedDictionaries == 0) doCallback(dictionary.toString());
         }
     }
 
-    public void onDictionariesLoaded(String[] newWords) {
-        if (newWords == null || newWords.length == 0) return;
-        addDisposable(prefs().getBoolean(R.string.settings_key_gesture_typing, R.bool.settings_default_gesture_typing)
-                .asObservable().subscribe(enabled -> {
-                    mGestureTypingEnabled = enabled;
-                    if (mGestureTypingDetector == null && mGestureTypingEnabled) {
-                        mGestureTypingDetector = new GestureTypingDetector();
-                        mGestureTypingDetector.addWords(newWords);
+    public void onDictionariesLoaded(ArrayList<? extends CharSequence> newWords) {
+        if (mGestureTypingDetector != null && mGestureTypingEnabled) {
+            mGestureTypingDetector.setWords(newWords);
 
-                        final AnyKeyboard currentAlphabetKeyboard = getCurrentAlphabetKeyboard();
-                        //it might be null if the IME service started with enabled flag set to true. In that case
-                        //the keyboard object will not be ready yet.
-                        if (currentAlphabetKeyboard != null) {
-                            mGestureTypingDetector.setKeys(currentAlphabetKeyboard.getKeys(),
-                                    currentAlphabetKeyboard.getMinWidth(), currentAlphabetKeyboard.getHeight());
-                        }
-                    } else if (mGestureTypingDetector != null && !mGestureTypingEnabled) {
-                        mGestureTypingDetector.destroy();
-                        mGestureTypingDetector = null;
-                    }
-                }));
+            final AnyKeyboard currentAlphabetKeyboard = getCurrentAlphabetKeyboard();
+            //it might be null if the IME service started with enabled flag set to true. In that case
+            //the keyboard object will not be ready yet.
+            if (currentAlphabetKeyboard != null) {
+                mGestureTypingDetector.setKeys(currentAlphabetKeyboard.getKeys(),
+                        currentAlphabetKeyboard.getMinWidth(), currentAlphabetKeyboard.getHeight());
+            }
+        }
     }
 
     /**

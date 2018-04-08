@@ -113,6 +113,11 @@ public class SuggestionsProvider {
 
     private final DictionaryBackgroundLoader.Listener mContactsDictionaryListener = new DictionaryBackgroundLoader.Listener() {
         @Override
+        public void onDictionaryLoadingStarted(Dictionary dictionary) {
+
+        }
+
+        @Override
         public void onDictionaryLoadingDone(Dictionary dictionary) {
         }
 
