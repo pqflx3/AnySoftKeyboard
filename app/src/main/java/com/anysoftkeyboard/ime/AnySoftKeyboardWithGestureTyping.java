@@ -44,7 +44,7 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
             }));
     }
 
-    public class WordListDictionaryListener implements DictionaryBackgroundLoader.Listener {
+    public static class WordListDictionaryListener implements DictionaryBackgroundLoader.Listener {
 
         private final ArrayList<String> mWords = new ArrayList<>();
         private final Consumer<ArrayList<? extends CharSequence>> mOnLoadedCallback;
@@ -67,7 +67,7 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
                 Collections.addAll(mWords, words);
                 mHasAddedWords = true;
             }
-            Logger.d("WordListDictionaryListener", "onDictionaryLoadingDone got words with length %d", words.length);
+            Logger.d("WordListDictionaryListener", "onDictionaryLoadingDone got words with length %d", (words == null? 0 : words.length));
 
             if (mExpectedDictionaries == 0) doCallback(dictionary.toString());
 

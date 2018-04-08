@@ -26,7 +26,7 @@ public class GestureTypingDetectorTest {
         Robolectric.getBackgroundThreadScheduler().pause();
         TestableGestureTypingDetector detector = new TestableGestureTypingDetector(Arrays.asList("hello", "welcome"));
         Assert.assertEquals(GestureTypingDetector.LoadingState.NOT_LOADED, detector.getLoadingState());
-        detector.setWords(Collections.emptyList());
+        detector.setWords(Arrays.asList(""));
         Assert.assertEquals(GestureTypingDetector.LoadingState.NOT_LOADED, detector.getLoadingState());
         detector.setKeys(Collections.emptyList(), 100, 100);
         Assert.assertEquals(GestureTypingDetector.LoadingState.LOADING, detector.getLoadingState());
