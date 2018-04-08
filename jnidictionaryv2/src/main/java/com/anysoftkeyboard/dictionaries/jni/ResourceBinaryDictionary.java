@@ -225,8 +225,6 @@ public class ResourceBinaryDictionary extends Dictionary {
 
     @Override
     public String[] getWords() {
-        String[] ret = getWordsNative(mNativeDictPointer.get());
-        System.out.println("GetWords returning *************************** " + Arrays.toString(ret));
-        return ret;
+        return getWordsNative(mNativeDictPointer.get());
     }
 }

@@ -9,7 +9,9 @@ import com.anysoftkeyboard.rx.RxSchedulers;
 import com.anysoftkeyboard.utils.Triple;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -31,7 +33,7 @@ public class GestureTypingDetector {
 
     private Iterable<Keyboard.Key> mKeys = null;
     @VisibleForTesting
-    List<CharSequence> mWords = null;
+    final List<CharSequence> mWords = new ArrayList<>();
     @NonNull
     private Disposable mGeneratingDisposable = Disposables.empty();
 
@@ -45,8 +47,9 @@ public class GestureTypingDetector {
     private LoadingState mWordsCornersState = LoadingState.NOT_LOADED;
     private final ArrayList<int[]> mWordsCorners = new ArrayList<>();
 
-    public void setWords(List<CharSequence> words) {
-        mWords = words;
+    public void addWords(String... words) {
+        Arrays.sort(words);
+        Collections.addAll(mWords, words);
     }
 
     public void setKeys(Iterable<Keyboard.Key> keys, int width, int height) {
