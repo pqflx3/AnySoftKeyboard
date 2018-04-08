@@ -9,10 +9,7 @@ import com.anysoftkeyboard.rx.RxSchedulers;
 import com.anysoftkeyboard.utils.Triple;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observable;

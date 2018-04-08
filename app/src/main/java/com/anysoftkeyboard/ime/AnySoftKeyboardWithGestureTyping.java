@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWithQuickText {
 
@@ -56,7 +55,7 @@ public abstract class AnySoftKeyboardWithGestureTyping extends AnySoftKeyboardWi
         }
 
         @Override
-        public void onDictionaryLoadingStarted(Dictionary _) { mExpectedDictionaries++; }
+        public void onDictionaryLoadingStarted(Dictionary dictionary) { mExpectedDictionaries++; }
 
         @Override
         public void onDictionaryLoadingDone(Dictionary dictionary) {

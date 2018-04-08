@@ -16,8 +16,6 @@
 
 package com.anysoftkeyboard;
 
-import static com.menny.android.anysoftkeyboard.AnyApplication.getKeyboardThemeFactory;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -55,9 +53,7 @@ import android.widget.Toast;
 import com.anysoftkeyboard.api.KeyCodes;
 import com.anysoftkeyboard.base.utils.CompatUtils;
 import com.anysoftkeyboard.base.utils.Logger;
-import com.anysoftkeyboard.dictionaries.Dictionary;
 import com.anysoftkeyboard.dictionaries.DictionaryAddOnAndBuilder;
-import com.anysoftkeyboard.dictionaries.DictionaryBackgroundLoader;
 import com.anysoftkeyboard.dictionaries.ExternalDictionaryFactory;
 import com.anysoftkeyboard.dictionaries.Suggest;
 import com.anysoftkeyboard.dictionaries.TextEntryState;
@@ -98,7 +94,8 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
+
+import static com.menny.android.anysoftkeyboard.AnyApplication.getKeyboardThemeFactory;
 
 /**
  * Input method implementation for QWERTY-ish keyboard.
