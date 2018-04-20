@@ -32,5 +32,11 @@
               index="6"/>
     <Keyboard nameResId="@string/terminal_keyboard" layoutResId="@xml/terminal"
               id="b1c24b40-02ce-4857-9fb8-fb9e4e3b4318" index="7" description="Created with bittrance"/>
+    <Keyboard nameResId="@string/eng_keyboard" iconResId="@drawable/ic_stat_en"
+            layoutResId="@xml/qwerty_with_symbols2" landscapeResId="@xml/qwerty_with_symbols2"
+            id="3FFFFFF3-91B3-4204-BB1B-421BA8FC8430"
+            defaultDictionaryLocale="en" description="QWERTY Latin keyboard with symbols (on long press). Editted to make sense."
+            index="8" defaultEnabled="false"
+            physicalKeyboardMappingResId="@xml/physical" />
 
 </Keyboards>
