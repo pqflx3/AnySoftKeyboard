@@ -106,6 +106,7 @@
     <string name="vibrate_on_key_press_dialog_title">Select vibration type</string>
     <string-array name="vibrate_on_key_press_types">
         <item>None</item>
+        <item>Very Light</item>
         <item>Light</item>
         <item>Medium</item>
         <item>Strong</item>

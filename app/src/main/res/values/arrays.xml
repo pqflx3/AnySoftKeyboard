@@ -22,6 +22,7 @@
 
     <string-array name="vibrate_on_key_press_values">
         <item>0</item>
+        <item>5</item>
         <item>17</item>
         <item>30</item>
         <item>50</item>
