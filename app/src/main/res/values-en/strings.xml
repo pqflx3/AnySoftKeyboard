@@ -554,6 +554,7 @@
     <string name="extension_kbd_bottom_iphone">iPhone styled (no mic)</string>
     <string name="extension_kbd_bottom_iphone_with_voice">iPhone styled with mic</string>
     <string name="extension_kbd_bottom_alt">Alternate (no mic)</string>
+    <string name="extension_kbd_bottom_alt_with_num">Alternate with num</string>
     <string name="extension_kbd_bottom_alt_with_mic">Alternate with mic</string>
     <string name="extension_kbd_bottom_old">Old School</string>
     <string name="extension_kbd_bottom_simple">Simple</string>
