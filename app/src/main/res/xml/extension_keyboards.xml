@@ -139,6 +139,14 @@
         description=""
         index="9"
         />
+    <ExtensionKeyboard
+        id="3DFFC2AD-8BC8-47F3-962A-918156AD8DD1"
+        nameResId="Simple - James"
+        extensionKeyboardResId="@xml/ext_kbd_bottom_row_simple_james"
+        extensionKeyboardType="@integer/extension_keyboard_type_bottom_row"
+        description=""
+        index="10"
+        />
 
     <!-- top extension keyboards -->
     <ExtensionKeyboard

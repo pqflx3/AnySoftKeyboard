@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Keyboard
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ask="http://schemas.android.com/apk/res-auto">
+    <!-- Generic bottom row -->
+    <Row android:keyboardMode="@integer/keyboard_mode_normal" android:rowEdgeFlags="bottom" android:keyWidth="10%p" android:keyHeight="@integer/key_normal_height">
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_keyboard_mode_change" android:keyEdgeFlags="left"/>
+
+        <Key ask:isFunctional="true" android:codes="44" ask:shiftedCodes="_" android:popupCharacters=";:-\u2014_&#39;&#34;" ask:hintLabel="; -"/>
+
+        <Key android:keyWidth="50%p" ask:isFunctional="true" android:codes="@integer/key_code_space"/>
+
+        <Key ask:isFunctional="true" android:codes="." ask:shiftedCodes="\?" android:popupCharacters="\?!)(][/\\" ask:hintLabel="\? !"/>
+
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_enter" android:keyEdgeFlags="right" ask:longPressCode="@integer/key_code_settings" />
+    </Row>
+    <Row android:keyboardMode="@integer/keyboard_mode_im" android:rowEdgeFlags="bottom" android:keyWidth="10%p" android:keyHeight="@integer/key_normal_height">
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_keyboard_mode_change" android:keyEdgeFlags="left"/>
+
+        <Key ask:isFunctional="true" android:codes="44" ask:shiftedCodes="_" android:popupCharacters=";:-\u2014_&#39;&#34;" ask:hintLabel="; -"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_space" android:keyWidth="50%p"/>
+
+        <Key ask:isFunctional="true" android:codes="." ask:shiftedCodes="\?" android:popupCharacters="\?!)(][/\\" ask:hintLabel="\? !"/>
+
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_enter" android:keyEdgeFlags="right" ask:longPressCode="@integer/key_code_settings" />
+    </Row>
+
+    <Row android:keyboardMode="@integer/keyboard_mode_url" android:rowEdgeFlags="bottom" android:keyWidth="10%p" android:keyHeight="@integer/key_normal_height">
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_keyboard_mode_change" android:keyEdgeFlags="left"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_domain"/>
+
+        <Key ask:isFunctional="true" android:codes="\@" ask:shiftedCodes="_" android:popupCharacters=",;:-\u2014_&#39;&#34;" ask:hintLabel="; -"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_space" android:keyWidth="40%p"/>
+
+        <Key ask:isFunctional="true" android:codes="." ask:shiftedCodes="\?" android:popupCharacters="\?!)(][/\\" ask:hintLabel="\? !"/>
+
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_enter" android:keyEdgeFlags="right" ask:longPressCode="@integer/key_code_settings"/>
+    </Row>
+
+    <Row android:keyboardMode="@integer/keyboard_mode_email" android:rowEdgeFlags="bottom" android:keyWidth="10%p" android:keyHeight="@integer/key_normal_height">
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_keyboard_mode_change" android:keyEdgeFlags="left"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_domain"/>
+
+        <Key ask:isFunctional="true" android:codes="\@" ask:shiftedCodes="_" android:popupCharacters=",;:-\u2014_&#39;&#34;" ask:hintLabel="; -"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_space" android:keyWidth="40%p"/>
+
+        <Key ask:isFunctional="true" android:codes="." ask:shiftedCodes="\?" android:popupCharacters="\?!)(][/\\" ask:hintLabel="\? !"/>
+
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_enter" android:keyEdgeFlags="right" ask:longPressCode="@integer/key_code_settings" />
+    </Row>
+    <Row android:keyboardMode="@integer/keyboard_mode_password" android:rowEdgeFlags="bottom" android:keyWidth="10%p" android:keyHeight="@integer/key_normal_height">
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_keyboard_mode_change" android:keyEdgeFlags="left"/>
+
+        <Key ask:isFunctional="true" android:codes="44" ask:shiftedCodes="_" android:popupCharacters=";:-\u2014_&#39;&#34;" ask:hintLabel="; -"/>
+
+        <Key ask:isFunctional="true" android:codes="@integer/key_code_space" android:keyWidth="50%p"/>
+
+        <Key ask:isFunctional="true" android:codes="." ask:shiftedCodes="\?" android:popupCharacters="\?!)(][/\\" ask:hintLabel="\? !"/>
+
+        <Key android:keyWidth="15%p" ask:isFunctional="true" android:codes="@integer/key_code_enter" android:keyEdgeFlags="right" ask:longPressCode="@integer/key_code_settings" />
+    </Row>
+</Keyboard>
