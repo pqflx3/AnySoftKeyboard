@@ -33,9 +33,10 @@ public abstract class RestRequestPerformer<R, A> {
                     client.execute(
                             httpRequest, HttpClientCreator.createContext(username, password))) {
                 System.out.println("Response status: " + httpResponse.getStatusLine());
-                final Scanner scanner =
-                        new Scanner(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8)
-                                .useDelimiter("\\A");
+                final Scanner scanner;
+                scanner = new Scanner(httpResponse.getEntity().getContent());
+//                scanner = new Scanner(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8)
+//                        .useDelimiter("\\A");
                 final String responseString = scanner.hasNext() ? scanner.next() : "";
                 System.out.println("Response content: " + responseString);
                 if (httpResponse.getStatusLine().getStatusCode() > 299

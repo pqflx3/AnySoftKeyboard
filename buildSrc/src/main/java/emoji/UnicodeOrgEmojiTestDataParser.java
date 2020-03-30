@@ -19,7 +19,7 @@ class UnicodeOrgEmojiTestDataParser {
     // sub-group start: "# subgroup: flag"
     private static final Pattern SUB_GROUP_ROW_PATTERN =
             Pattern.compile("^#\\s+subgroup:\\s+(.+)$");
-    // data row: "26AB                                       ; fully-qualified     # ⚫ black circle"
+    // data row: "26AB
     private static final Pattern DATA_PART_ROW_PATTERN =
             Pattern.compile("^([0-9A-F ]+)\\s+;\\s+fully-qualified\\s*$");
     private static final Pattern TAGS_PART_ROW_PATTERN = Pattern.compile("([\\w\\s]+)$");
