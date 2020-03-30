@@ -190,6 +190,15 @@
         index="13"
         />
 
+    <ExtensionKeyboard
+        id="4bd88cea-f31e-4500-b20d-f51757350d8c"
+        nameResId="@string/extension_kbd_bottom_row_aosp"
+        extensionKeyboardResId="@xml/ext_kbd_bottom_row_aosp_james"
+        extensionKeyboardType="@integer/extension_keyboard_type_bottom_row"
+        description=""
+        index="13"
+        />
+
 
     <!-- top extension keyboards -->
     <ExtensionKeyboard
