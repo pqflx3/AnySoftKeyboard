@@ -47,5 +47,11 @@
               layoutResId="@xml/halmak" id="546b29d0-2563-11e9-b56e-0800200c9a66"
               description="@string/halmak_keyboard_description"
               index="10"/>
+    <Keyboard nameResId="@string/english_keyboard_symbols" iconResId="@drawable/ic_status_english"
+            layoutResId="@xml/qwerty_with_symbols_james" landscapeResId="@xml/qwerty_with_symbols_james"
+            id="34CC76A3-91B3-4204-BB1B-421BA8FC8431"
+            defaultDictionaryLocale="en" description="@string/english_keyboard_symbols_description"
+            index="11" defaultEnabled="false"
+            physicalKeyboardMappingResId="@xml/english_physical" />
 
 </Keyboards>
